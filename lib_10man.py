@@ -59,6 +59,6 @@ def gen_matched_list(player1, player2, dic, p1List):
 def print_dict(dictionary):
     print(dictionary)
 
-print_dict(gen_global("Players"))
-print("\nThomas' Meta Knight rating: " + get_tier("Thomas", "Meta Knight", gen_global("Players")))
-print("\nRandom character from thomas s tier: " + get_rand_char_from_tier("Thomas", "S", gen_global("Players")))
+#print_dict(gen_global("Players"))
+#print("\nThomas' Meta Knight rating: " + get_tier("Thomas", "Meta Knight", gen_global("Players")))
+#print("\nRandom character from thomas s tier: " + get_rand_char_from_tier("Thomas", "S", gen_global("Players")))
