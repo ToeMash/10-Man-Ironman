@@ -7,16 +7,17 @@ import os
 
 sz = 0
  
-col1=[[sg.Text('Player 1')],
-      *[[sg.Image(imOut),] for i in range(sz)]]
-col2=[[sg.Text('Player 2')],
-      *[[sg.Image(imOut),] for i in range(sz)]]
+col1=[[sg.Text('Player 1', background_color='black', size=sz)],
+      [[sg.Image(imOut),] for i in range(sz)]]
+col2=[[sg.Text('Player 2', background_color="black", size=sz)],
+      [[sg.Image(imOut),] for i in range(sz)]]
 
 layout = [
     [sg.Text("Number of players", size=(30, 1)), sg.InputText()],
     [sg.Text("Number of characters", size=(30, 1)), sg.InputText()],
-    [sg.Column(col1, size=sz)],
-    [sg.Column(col2, size=sz)],
+    [sg.Column(col1, key='-IMAGEOUT-')],
+    [sg.Column(col2, key='-IMAGEOUT-')],
+    [sg.Image("chars/Mario.png")],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
@@ -38,6 +39,7 @@ while True:
             charList.append(char_lineup(sz))
         for x in range(int(values[0])):
             for y in range(sz):
-                imOut = Image.open("chars/" + charList[x][y] + ".png")
-                #window["10 Man Iron Man"].update(data=imOut)
+                imOut = "chars/" + charList[x][y] + ".png"
+                window.Element("-IMAGEOUT-").update(imOut)
+        window.refresh()
 window.close()
