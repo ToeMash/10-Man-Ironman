@@ -1,18 +1,16 @@
 import PySimpleGUI as sg
-import pyautogui
 import time
-import 10manlibrary
+from lib_10man import char_lineup
 from PIL import Image
 import os
 
-folder = 
-imageList = [f for f in folder]
 
-for i in 
+sz = 0
+ 
 col1=[[sg.Text('Player 1')],
-      [sg.Image(imOut)]]
+      *[[sg.Image(imOut),] for i in range(sz)]]
 col2=[[sg.Text('Player 2')],
-      [sg.Image(imOut)]]
+      *[[sg.Image(imOut),] for i in range(sz)]]
 
 layout = [
     [sg.Text("Number of players", size=(30, 1)), sg.InputText()],
@@ -27,7 +25,7 @@ margins = (10, 10)
 
 window = sg.Window("10 Man Iron Man", layout, margins)
 
-charList = 10manlibrary.list_of_characters
+charList = []
 
 # event loop
 while True:
@@ -35,11 +33,11 @@ while True:
     if event == "Close" or event == sg.WIN_CLOSED:
         break
     elif event == "Start":
-        sz = values[1]
-        for x in range(values[0]):
-            charArray[x] = 10manlibrary.pc(sz)
-        for x in range(values[0]):
+        sz = int(values[1])
+        for x in range(int(values[0])):
+            charList.append(char_lineup(sz))
+        for x in range(int(values[0])):
             for y in range(sz):
-                image = Image.open(charArray[x][y])
-                window["10 Man Iron Man"].update(
+                imOut = Image.open("chars/" + charList[x][y] + ".png")
+                #window["10 Man Iron Man"].update(data=imOut)
 window.close()
