@@ -53,7 +53,9 @@ def get_rand_char_from_tier(player, tier, dic):
 def gen_matched_list(player1, player2, dic, p1List):
     p2List = []
     for x in p1List:
-        p2List.append(get_rand_char_from_tier(player2, get_tier(player1, x, dic), dic))
+        char = get_rand_char_from_tier(player2, get_tier(player1, x, dic), dic)
+        dic[player2][get_tier(player1, x, dic)].remove(char)
+        p2List.append(char)
     return p2List
 
 def print_dict(dictionary):
