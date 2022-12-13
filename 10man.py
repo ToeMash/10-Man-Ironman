@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import time
-from lib_10man import char_lineup
+from lib_10man import char_lineup, gen_global, gen_matched_list
 from PIL import Image
 import os
 import sys
@@ -53,8 +53,7 @@ col1=[
     [sg.Image(key="-IMG-8")],
     [sg.Image(key="-IMG-9")]
 ]
-col2=[
-    [sg.Text('Player 2', background_color="black", size=0)],
+col2=[ [sg.Text('Player 2', background_color="black", size=0)],
     [sg.Image(key="-IMG2-0")],
     [sg.Image(key="-IMG2-1")],
     [sg.Image(key="-IMG2-2")],
@@ -77,6 +76,7 @@ window2 = sg.Window("The Ironman", layout2, margins)
 window2.read()
 
 charList = []
+dic = gen_global("Players")
 
 #player1
 charList = char_lineup(character_num)
@@ -86,7 +86,7 @@ for i in range(len(charList)):
     window2.refresh()
 
 #player2
-charList = char_lineup(character_num)
+charList = gen_matched_list("Brendan", "Thomas", dic, charList)
 for i in range(len(charList)):
     imOut = "chars/" + charList[i] + ".png"
     window2["-IMG2-" + str(i)].update(imOut)
