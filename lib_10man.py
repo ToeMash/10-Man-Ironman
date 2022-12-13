@@ -25,10 +25,12 @@ def char_lineup(num_characters):
 def gen_personal(filename):
     tierDict = {}
     tiers = ['S', 'A', 'B', 'C', 'D', 'F']
+    counter = 0
 
-    f = open(filename, "r")
+    f = open("Players/" + filename, "r")
     for x in f:
-        tierDict[tiers[int(x)]] = x.split('_')
+        tierDict[tiers[counter]] = x.strip().split('_')
+        counter = counter + 1
     return tierDict
 
 
@@ -38,6 +40,25 @@ def gen_global(directory):
         dictOut[f.split('.')[0]] = gen_personal(f)
     return dictOut
 
+def get_tier(player, character, dic):
+    for x in dic[player]:
+        for y in dic[player][x]:
+            if character == y:
+                return x
+    return None
+
+def get_rand_char_from_tier(player, tier, dic):
+    return dic[player][tier][random.randrange(0, len(dic[player][tier]), 1)]
+
+def gen_matched_list(player1, player2, dic, p1List):
+    p2List = []
+    for x in p1List:
+        p2List.append(get_rand_char_from_tier(player2, get_tier(player1, x, dic), dic))
+    return p2List
+
 def print_dict(dictionary):
     print(dictionary)
 
+print_dict(gen_global("Players"))
+print("\nThomas' Meta Knight rating: " + get_tier("Thomas", "Meta Knight", gen_global("Players")))
+print("\nRandom character from thomas s tier: " + get_rand_char_from_tier("Thomas", "S", gen_global("Players")))
