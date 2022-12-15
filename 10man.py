@@ -38,32 +38,23 @@ while True:
         break
 window.close()
 
-#show produced characters
+#setup layout for window 2
 
 col1=[
     [sg.Text('Player 1', background_color='black', size=0)],
-    [sg.Image(key="-IMG-0")],
-    [sg.Image(key="-IMG-1")],
-    [sg.Image(key="-IMG-2")],
-    [sg.Image(key="-IMG-3")],
-    [sg.Image(key="-IMG-4")],
-    [sg.Image(key="-IMG-5")],
-    [sg.Image(key="-IMG-6")],
-    [sg.Image(key="-IMG-7")],
-    [sg.Image(key="-IMG-8")],
-    [sg.Image(key="-IMG-9")]
+    [sg.Image(key="-IMG-0"), sg.Image(key="-IMG-1")],
+    [sg.Image(key="-IMG-2"), sg.Image(key="-IMG-3")],
+    [sg.Image(key="-IMG-4"), sg.Image(key="-IMG-5")],
+    [sg.Image(key="-IMG-6"), sg.Image(key="-IMG-7")],
+    [sg.Image(key="-IMG-8"), sg.Image(key="-IMG-9")]
 ]
-col2=[ [sg.Text('Player 2', background_color="black", size=0)],
-    [sg.Image(key="-IMG2-0")],
-    [sg.Image(key="-IMG2-1")],
-    [sg.Image(key="-IMG2-2")],
-    [sg.Image(key="-IMG2-3")],
-    [sg.Image(key="-IMG2-4")],
-    [sg.Image(key="-IMG2-5")],
-    [sg.Image(key="-IMG2-6")],
-    [sg.Image(key="-IMG2-7")],
-    [sg.Image(key="-IMG2-8")],
-    [sg.Image(key="-IMG2-9")]
+col2=[
+    [sg.Text('Player 2', background_color="black", size=0)],
+    [sg.Image(key="-IMG2-0"), sg.Image(key="-IMG2-1")],
+    [sg.Image(key="-IMG2-2"), sg.Image(key="-IMG2-3")],
+    [sg.Image(key="-IMG2-4"), sg.Image(key="-IMG2-5")],
+    [sg.Image(key="-IMG2-6"), sg.Image(key="-IMG2-7")],
+    [sg.Image(key="-IMG2-8"), sg.Image(key="-IMG2-9")]
 ]
 
 layout2 = [
@@ -72,12 +63,16 @@ layout2 = [
     [sg.Button("Close")]
 ]
 
+#show produced characters
+
 window2 = sg.Window("The Ironman", layout2, margins)
 window2.read()
 
 charList = []
 dic = gen_global("Players")
 
+#refresh characters
+#def refresh_characters():`
 #player1
 charList = char_lineup(character_num)
 for i in range(len(charList)):
