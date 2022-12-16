@@ -10,10 +10,12 @@ sg.theme('DarkAmber')
 
 #player_num = 0      #number of players
 character_num = 0   #number of characters
+matched_random = True
 
 layout = [
 #    [sg.Text("Number of players", size=(30, 1)), sg.InputText()],
     [sg.Text("Number of characters", size=(30, 1)), sg.InputText()],
+    [sg.Checkbox("Matched random", default=True)],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
@@ -35,6 +37,10 @@ while True:
         #get the values
         #player_num = int(values[0])
         character_num = int(values[0])
+        if values[1]:
+            matched_random = True
+        else:
+            matched_random = False
         if character_num <= 0 or character_num > 10:    #player_num less than or equal to 0
             sys.exit("inputed values are invalid")
         print("worked")
@@ -55,14 +61,25 @@ def refresh_characters():
         window2["col1_" + str(i)].update(visible = True)
         window2["col1_" + str(i)].Widget.config(background = tier_color)
     #player2
-    charList = gen_matched_list(player_one, player_two, dic, charList)
-    for i in range(len(charList)):
-        tier_color = tiers_color_dict[get_tier(player_two, charList[i], dic)]
-        imOut = "chars/" + charList[i] + ".png"
-        window2["-IMG2-" + str(i)].update(imOut)
-        window2["-IMG2-" + str(i)].ParentRowFrame.config(background = tier_color)
-        window2["col2_" + str(i)].update(visible = True)
-        window2["col2_" + str(i)].Widget.config(background = tier_color)
+    if matched_random:
+        charList = gen_matched_list(player_one, player_two, dic, charList)
+        for i in range(len(charList)):
+            tier_color = tiers_color_dict[get_tier(player_two, charList[i], dic)]
+            imOut = "chars/" + charList[i] + ".png"
+            window2["-IMG2-" + str(i)].update(imOut)
+            window2["-IMG2-" + str(i)].ParentRowFrame.config(background = tier_color)
+            window2["col2_" + str(i)].update(visible = True)
+            window2["col2_" + str(i)].Widget.config(background = tier_color)
+    else:
+        charList = char_lineup(character_num)
+        for i in range(len(charList)):
+            filler = get_tier(player_two, charList[i], dic)
+            tier_color = tiers_color_dict[filler]
+            imOut = "chars/" + charList[i] + ".png"
+            window2["-IMG2-" + str(i)].update(imOut)
+            window2["-IMG2-" + str(i)].ParentRowFrame.config(background = tier_color)
+            window2["col2_" + str(i)].update(visible = True)
+            window2["col2_" + str(i)].Widget.config(background = tier_color)
 
 #setup layout for window 2
 col1_s = [

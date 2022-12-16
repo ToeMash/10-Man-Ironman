@@ -49,6 +49,7 @@ def get_tier(player, character, dic):
             if character == y:
                 #print(x)
                 return x
+    print("\nPlayer: " + player + " Character: " + character)
     return None
 
 def get_rand_char_from_tier(player, tier, dic):
