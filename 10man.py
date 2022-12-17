@@ -18,6 +18,7 @@ layout = [
     [sg.Checkbox("Matched random", default=True)],
     [sg.Text("Player 1: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
     [sg.Text("Player 2: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
+    [sg.Button("New Player")],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
@@ -45,7 +46,12 @@ while True:
         if character_num <= 0 or character_num > 10:    #player_num less than or equal to 0
             sys.exit("inputed values are invalid")
         break
+    elif event == "New Player":
+        sys.exit("not implimented yet lol")
 window.close()
+
+tier_layout = []
+
 
 charList = []
 seen = {}
