@@ -42,11 +42,52 @@ while True:
         break
 window.close()
 
+charList = []
 seen = {}
 saw = []
 
+#inital characters, colors, and visibility of frames
+name = []
+color_list = []
+charList = char_lineup(character_num)
+visibility_config = []
+for i in range(character_num):
+    tier_color = tiers_color_dict[get_tier(player_one, charList[i], dic)]
+    color_list.append(tier_color)
+    seen["-IMG1-"+str(i)] = tier_color
+    visibility_config.append(True)
+name += charList
+
+for i in range(len(color_list), 10):
+    color_list.append("black")
+color_list.append("!")
+for i in range(len(name), 10):
+    name.append("no_one")
+name.append("!")
+for i in range(len(visibility_config), 10):
+    visibility_config.append(False)
+visibility_config.append("!")
+
+if matched_random:
+    charList = gen_matched_list(player_one, player_two, dic, charList)
+else:
+    charList = char_lineup(character_num)
+
+for i in range(character_num):
+    tier_color = tiers_color_dict[get_tier(player_two, charList[i], dic)]
+    color_list.append(tier_color)
+    seen["-IMG2-"+str(i)] = tier_color
+    visibility_config.append(True)
+name += charList
+
+for i in range(len(color_list), 21):
+    color_list.append("black")
+for i in range(len(name), 21):
+    name.append("no_one")
+for i in range(len(visibility_config), 21):
+    visibility_config.append(False)
+
 #refresh characters
-charList = []
 def refresh_characters():
     saw.clear()
     #player1
@@ -78,17 +119,31 @@ def refresh_characters():
 
 #setup layout for window 2
 col1_s = [
-    [sg.Frame('', [[sg.Button(key="-IMG1-"+str(i))]],
-    background_color = "gold", visible = False, key="f-IMG1-"+str(i)),
-    sg.Frame('', [[sg.Button(key="-IMG1-"+str(i+1))]],
-    background_color = "gold", visible = False, key="f-IMG1-"+str(i+1))] for i in range(0,10,2)
+    [sg.Frame('', [[sg.Button(key="-IMG1-"+str(i),
+    image_filename = "chars/"+name[i]+".png",
+    button_color = color_list[i])]],
+    background_color = "gold", visible = visibility_config[i],
+    key="f-IMG1-"+str(i)),
+
+    sg.Frame('', [[sg.Button(key="-IMG1-"+str(i+1),
+    image_filename = "chars/"+name[i+1]+".png",
+    button_color = color_list[i + 1])]],
+    background_color = "gold", visible = visibility_config[i+1],
+    key="f-IMG1-"+str(i+1))] for i in range(0,10,2)
 ]
 
 col2_s = [
-    [sg.Frame('', [[sg.Button(key="-IMG2-"+str(i))]],
-    background_color = "gold", visible = False, key="f-IMG2-"+str(i)),
-    sg.Frame('', [[sg.Button(key="-IMG2-"+str(i+1))]],
-    background_color = "gold", visible = False, key="f-IMG2-"+str(i+1))] for i in range(0,10,2)
+    [sg.Frame('', [[sg.Button(key="-IMG2-"+str(i),
+    image_filename = "chars/"+name[name.index("!")+1+i]+".png",
+    button_color = color_list[color_list.index("!")+1+i])]],
+    background_color = "gold", visible = visibility_config[visibility_config.index("!")+1+i],
+    key="f-IMG2-"+str(i)),
+
+    sg.Frame('', [[sg.Button(key="-IMG2-"+str(i+1),
+    image_filename = "chars/"+name[name.index("!")+1+i+1]+".png",
+    button_color = color_list[color_list.index("!")+1+i+1])]],
+    background_color = "gold", visible = visibility_config[visibility_config.index("!")+1+i+1],
+    key="f-IMG2-"+str(i+1))] for i in range(0,10,2)
 ]
 
 col1=[
@@ -137,6 +192,7 @@ while True:
         else:
             window2[event].update(button_color = "grey")
             window2["f"+event].Widget.config(background = "grey")
+            window2[event].ParentRowFrame.config(background = "grey")
             saw.append(event)
             print(saw)
 window2.close()
