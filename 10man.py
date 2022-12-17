@@ -71,12 +71,10 @@ name += charList
 
 for i in range(len(color_list), 10):
     color_list.append("black")
-color_list.append("!")
-for i in range(len(name), 10):
     name.append("no_one")
-name.append("!")
-for i in range(len(visibility_config), 10):
     visibility_config.append(False)
+color_list.append("!")
+name.append("!")
 visibility_config.append("!")
 
 if matched_random:
@@ -93,9 +91,7 @@ name += charList
 
 for i in range(len(color_list), 21):
     color_list.append("black")
-for i in range(len(name), 21):
     name.append("no_one")
-for i in range(len(visibility_config), 21):
     visibility_config.append(False)
 
 #refresh characters
@@ -174,7 +170,7 @@ layout2 = [
     [sg.Button("Close"), sg.Button("Retry")]
 ]
 
-#show produced characters
+#window of characters
 window2 = sg.Window("The Ironman", layout2, margins, location = (400,0), element_justification = 'c', element_padding = 1)
 
 #list of usable buttons
