@@ -11,15 +11,18 @@ sg.theme('DarkAmber')
 character_num = 0   #number of characters
 matched_random = True
 
+dic = gen_global("Players")
+
 layout = [
     [sg.Text("Number of characters", size=(30, 1)), sg.InputText()],
     [sg.Checkbox("Matched random", default=True)],
+    [sg.Text("Player 1: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
+    [sg.Text("Player 2: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
 
 margins = (10, 10)
-dic = gen_global("Players")
 player_one = "Brendan"        #defualt tier list
 player_two = "Thomas"         #default tier list
 tier_color = "grey"
@@ -35,6 +38,8 @@ while True:
         character_num = int(values[0])
         if values[1]:
             matched_random = True
+            player_one = values[2]
+            player_two = values[3]
         else:
             matched_random = False
         if character_num <= 0 or character_num > 10:    #player_num less than or equal to 0
