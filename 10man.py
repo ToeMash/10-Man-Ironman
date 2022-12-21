@@ -4,6 +4,7 @@ from lib_10man import char_lineup, gen_global, gen_matched_list, get_tier, tiers
 from PIL import Image
 import os
 import sys
+from gui_lib import open_tierMaker
 
 #theme
 sg.theme('DarkAmber')
@@ -12,13 +13,19 @@ character_num = 0   #number of characters
 matched_random = True
 
 dic = gen_global("Players")
+lst_names = list(dic.keys())
 
 layout = [
     [sg.Text("Number of characters", size=(30, 1)), sg.InputText()],
     [sg.Checkbox("Matched random", default=True)],
-    [sg.Text("Player 1: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
-    [sg.Text("Player 2: ", size=(30, 1)), sg.Combo(list(dic.keys()))],
-    [sg.Button("New Player")],
+    [sg.Text("Player 1: ", size=(30, 1)), sg.Combo(lst_names,default_value = "Thomas",k="l1")],
+    [sg.Text("Player 2: ", size=(30, 1)), sg.Combo(lst_names,default_value="Brendan",k="l2")],
+    [sg.Column([[sg.Button("New Player", size = (15,1))]],
+    element_justification = 'l', pad = 1),
+    sg.Column([[sg.InputText()]], element_justification = 'r', pad = 1)],
+    [sg.Column([[sg.Button("Remove Player: ", size=(15,1))]],
+    element_justification = 'l', pad = 1),
+    sg.Column([[sg.Combo(lst_names, k="l3")]], element_justification = 'r', pad = 1)],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
@@ -32,26 +39,35 @@ window = sg.Window("10 Man Iron Man", layout, margins)
 
 #gather information
 while True:
+    print(lst_names)
     event, values = window.read()
+    print(values)
     if event == "Close" or event == sg.WIN_CLOSED:
         sys.exit("program exited")
     elif event == "Start":
         character_num = int(values[0])
         if values[1]:
             matched_random = True
-            player_one = values[2]
-            player_two = values[3]
+            player_one = values["l1"]
+            player_two = values["l2"]
         else:
             matched_random = False
         if character_num <= 0 or character_num > 10:    #player_num less than or equal to 0
             sys.exit("inputed values are invalid")
         break
     elif event == "New Player":
-        sys.exit("not implimented yet lol")
+        open_tierMaker(values[2])
+        sys.exit("New Player Tier list made")
+    elif event == "Remove Player: ":
+        os.remove("Players/"+values["l3"]+".txt")
+        lst_names.remove(values["l3"])
+        sys.exit("Player "+values["l3"]+" removed")
+    window["l1"].update(values=lst_names)
+    window["l2"].update(lst_names)
+    window["l3"].update(lst_names)
 window.close()
 
 tier_layout = []
-
 
 charList = []
 seen = {}
@@ -96,7 +112,6 @@ for i in range(len(color_list), 21):
 
 #refresh characters
 def refresh_characters():
-    saw.clear()
     #player1
     charList = char_lineup(character_num)
     for i in range(len(charList)):
@@ -186,6 +201,7 @@ while True:
     if event == "Close" or event == sg.WIN_CLOSED:
         break
     elif event == "Retry":
+        saw.clear()
         refresh_characters()
         window2.refresh()
     elif event in but_ton:
