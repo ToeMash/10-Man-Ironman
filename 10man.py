@@ -16,7 +16,7 @@ dic = gen_global("Players")
 lst_names = list(dic.keys())
 
 layout = [
-    [sg.Text("Number of characters", size=(30, 1)), sg.InputText()],
+    [sg.Text("Number of characters", size=(30, 1)), sg.InputText(default_text = "10")],
     [sg.Checkbox("Matched random", default=True)],
     [sg.Text("Player 1: ", size=(30, 1)), sg.Combo(lst_names,default_value = "Thomas",k="l1")],
     [sg.Text("Player 2: ", size=(30, 1)), sg.Combo(lst_names,default_value="Brendan",k="l2")],
