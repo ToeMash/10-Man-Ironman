@@ -1,10 +1,65 @@
 import PySimpleGUI as sg
 import time
-from lib_10man import list_of_characters, list_to_tier, tiers_color_dict
+from lib_10man import list_of_characters, list_to_tier, tiers_color_dict, tierlist_to_array, checkinlst, get_pos_nums, check_visibility, grabn#, inc
 from PIL import Image
+from itertools import count
 import os
 import sys
 
+def imgkey(extension):
+    return "img"+str(extension)
+
+def counter(_count=count(0)):
+    return next(_count)
+
+def edit_tier(name):
+    itr_tier_color = list(tiers_color_dict.values())
+    tr_lst = tierlist_to_array(name)
+    print(tr_lst)
+    n = 0
+    col = [
+        [sg.Button(key=imgkey(str(j)+str(i)),
+        button_color = itr_tier_color[j],
+        image_filename = checkinlst("charsl/", tr_lst, j, i, ".png"),
+        visible = check_visibility(tr_lst, j, i)) for i in range(len(tr_lst[j]))]
+        for j in range(len(tr_lst))
+    ]
+
+    layout = [
+            [sg.Text("edit "+name+"'s tier list", font = ["Ariel", 11])],
+            [sg.Column(col, pad = 0)],
+            [sg.Button(key="submit")]
+    ]
+    margins = (1,1)
+    window = sg.Window("edit tier list",  layout, margins, element_justification = 'c')
+
+    def swap_img(key1, key2):
+        #k1 and k2 are lists: [i, j]
+        k1, k2 = get_pos_nums(grabn(key1)), get_pos_nums(grabn(key2))
+        k1i, k1j, k2i, k2j = k1[0], k1[1], k2[0], k2[1]
+        window[key1].update(image_filename = checkinlst("charsl/", tr_lst, k2j, k2i, ".png"))
+        window[key2].update(image_filename = checkinlst("charsl/", tr_lst, k1j, k1i, ".png"))
+        print("k1 : "+str(k1)+"\nk2 : "+str(k2))
+        tr_lst[k1j][k1i], tr_lst[k2j][k2i] = tr_lst[k2j][k2i], tr_lst[k1j][k1i]
+
+    but_tons = list(map(imgkey, range(96)))
+    seen = []
+    while True:
+        event, values = window.read()
+        print(event)
+        if event == sg.WIN_CLOSED:
+            break
+        elif event in but_tons:
+            seen.append(event)
+            if len(seen) == 2:
+                swap_img(seen[0], seen[1])
+                seen = []
+        elif event == "submit":
+            with open("Players/"+name+".txt", 'w') as f:
+                for lst in tr_lst:
+                    f.write(list_to_tier(lst))
+            break
+    window.close()
 
 def open_tierMaker(name):
     col = [

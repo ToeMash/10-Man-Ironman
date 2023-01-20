@@ -68,6 +68,50 @@ def list_to_tier(lst):
     string += "\n"
     return string
 
-#print_dict(gen_global("Players"))
-#print("\nThomas' Meta Knight rating: " + get_tier("Thomas", "Meta Knight", gen_global("Players")))
-#print("\nRandom character from thomas s tier: " + get_rand_char_from_tier("Thomas", "S", gen_global("Players")))
+#creates 2d array of given tier list
+def tierlist_to_array(name):
+    lst = []
+    with open("Players/"+name+".txt", 'r') as f:
+        while True:
+            read = f.readline()
+            if not read:
+                break
+            tier = read.split("_")
+            tier[-1] = tier[-1][0:-1]
+            lst.append(tier)
+    return lst
+
+#checks if array coordinate exists
+#prerequisite: lst needs to be a list of list of strings
+def checkinlst(str1, lst, x, y, str2):
+    if x < len(lst) and y < len(lst[x]):
+        return str1 + lst[x][y] + str2
+    else:
+        return None
+
+#ex: num = 86 -> pos_nums = [6, 8]
+def get_pos_nums(num):
+    pos_nums = []
+    while num != 0:
+        pos_nums.append(num %10)
+        num = num // 10
+    while len(pos_nums) < 2:
+        pos_nums.append(0)
+    print(pos_nums)
+    return pos_nums
+
+#if coordinate not in range of array, button visibility is false, else true
+def check_visibility(lst, x, y):
+    if x < len(lst) and y < len(lst[x]):
+        return True
+    else:
+        return False
+
+#grab number from naming convention "img##"
+def grabn(string):
+    i = len(string) - 1
+    while string[i:].isdigit():
+        i -= 1
+    print(string[i+1:])
+    return int(string[i+1:])
+

@@ -4,7 +4,7 @@ from lib_10man import char_lineup, gen_global, gen_matched_list, get_tier, tiers
 from PIL import Image
 import os
 import sys
-from gui_lib import open_tierMaker
+from gui_lib import open_tierMaker, edit_tier
 
 #theme
 sg.theme('DarkAmber')
@@ -23,6 +23,9 @@ layout = [
     [sg.Column([[sg.Button("New Player", size = (15,1))]],
     element_justification = 'l', pad = 1),
     sg.Column([[sg.InputText()]], element_justification = 'r', pad = 1)],
+    [sg.Column([[sg.Button("edit Player", size = (15,1))]],
+    element_justification = 'l', pad = 1),
+    sg.Column([[sg.Combo(lst_names, k="edit_l")]], element_justification = 'r', pad = 1)],
     [sg.Column([[sg.Button("Remove Player: ", size=(15,1))]],
     element_justification = 'l', pad = 1),
     sg.Column([[sg.Combo(lst_names, k="l3")]], element_justification = 'r', pad = 1)],
@@ -58,6 +61,9 @@ while True:
     elif event == "New Player":
         open_tierMaker(values[2])
         sys.exit("New Player Tier list made")
+    elif event == "edit Player":
+        edit_tier(values["edit_l"])
+        sys.exit("Tier list edited")
     elif event == "Remove Player: ":
         os.remove("Players/"+values["l3"]+".txt")
         lst_names.remove(values["l3"])
