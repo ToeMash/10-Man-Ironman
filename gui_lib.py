@@ -6,19 +6,25 @@ from itertools import count
 import os
 import sys
 
+#naming convention for keys of the buttons
 def imgkey(extension):
     return "img"+str(extension)
 
-def counter(_count=count(0)):
-    return next(_count)
+#fixing edgecase for naming convention. removes instances of zeros for x
+def zeroException(x, y):
+    if int(x) == 0:
+        return y
+    else:
+        return x + y
 
+#window for editing player tier lists
 def edit_tier(name):
     itr_tier_color = list(tiers_color_dict.values())
     tr_lst = tierlist_to_array(name)
     print(tr_lst)
     n = 0
     col = [
-        [sg.Button(key=imgkey(str(j)+str(i)),
+        [sg.Button(key=imgkey(zeroException(str(j), str(i))),
         button_color = itr_tier_color[j],
         image_filename = checkinlst("charsl/", tr_lst, j, i, ".png"),
         visible = check_visibility(tr_lst, j, i)) for i in range(len(tr_lst[j]))]
