@@ -87,16 +87,16 @@ def checkinlst(str1, lst, x, y, str2):
     if x < len(lst) and y < len(lst[x]):
         return str1 + lst[x][y] + str2
     else:
+        print("RETURNED NONE")
         return None
 
 #ex: num = 86 -> pos_nums = [6, 8]
 def get_pos_nums(num):
     pos_nums = []
-    while num != 0:
-        pos_nums.append(num %10)
-        num = num // 10
-    while len(pos_nums) < 2:
-        pos_nums.append(0)
+    print(num)
+    string = str(num)
+    pos_nums.append(string[0])
+    pos_nums.append(string[1:])
     print(pos_nums)
     return pos_nums
 
@@ -113,5 +113,5 @@ def grabn(string):
     while string[i:].isdigit():
         i -= 1
     print(string[i+1:])
-    return int(string[i+1:])
+    return string[i+1:]
 

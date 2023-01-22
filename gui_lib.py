@@ -24,7 +24,7 @@ def edit_tier(name):
     print(tr_lst)
     n = 0
     col = [
-        [sg.Button(key=imgkey(zeroException(str(j), str(i))),
+        [sg.Button(key=imgkey(str(j)+str(i)),
         button_color = itr_tier_color[j],
         image_filename = checkinlst("charsl/", tr_lst, j, i, ".png"),
         visible = check_visibility(tr_lst, j, i)) for i in range(len(tr_lst[j]))]
@@ -42,13 +42,18 @@ def edit_tier(name):
     def swap_img(key1, key2):
         #k1 and k2 are lists: [i, j]
         k1, k2 = get_pos_nums(grabn(key1)), get_pos_nums(grabn(key2))
-        k1i, k1j, k2i, k2j = k1[0], k1[1], k2[0], k2[1]
-        window[key1].update(image_filename = checkinlst("charsl/", tr_lst, k2j, k2i, ".png"))
-        window[key2].update(image_filename = checkinlst("charsl/", tr_lst, k1j, k1i, ".png"))
+        k1i, k1j, k2i, k2j = int(k1[0]), int(k1[1]), int(k2[0]), int(k2[1])
+        print("k1i:"+str(k1i)+" k1j:"+str(k1j)+" k2i:"+str(k2i)+" k2j:"+str(k2j))
+        window[key1].update(image_filename = checkinlst("charsl/", tr_lst, k2i, k2j, ".png"))
+        window[key2].update(image_filename = checkinlst("charsl/", tr_lst, k1i, k1j, ".png"))
         print("k1 : "+str(k1)+"\nk2 : "+str(k2))
-        tr_lst[k1j][k1i], tr_lst[k2j][k2i] = tr_lst[k2j][k2i], tr_lst[k1j][k1i]
+        tr_lst[k1i][k1j], tr_lst[k2i][k2j] = tr_lst[k2i][k2j], tr_lst[k1i][k1j]
 
-    but_tons = list(map(imgkey, range(96)))
+    but_tons = []
+    for j in range(len(tr_lst)):
+        for i in range(len(tr_lst[j])):
+            but_tons.append(imgkey(str(j)+str(i)))
+    print(but_tons)
     seen = []
     while True:
         event, values = window.read()
@@ -56,6 +61,7 @@ def edit_tier(name):
         if event == sg.WIN_CLOSED:
             break
         elif event in but_tons:
+            print(event + " seen")
             seen.append(event)
             if len(seen) == 2:
                 swap_img(seen[0], seen[1])
