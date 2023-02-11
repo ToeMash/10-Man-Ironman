@@ -86,7 +86,7 @@ saw = []
 #inital characters, colors, and visibility of frames
 name = []
 color_list = []
-charList = char_lineup(character_num)
+charList = char_lineup(character_num, dlc_toggle)
 visibility_config = []
 for i in range(character_num):
     tier_color = tiers_color_dict[get_tier(player_one, charList[i], dic)]
@@ -106,7 +106,7 @@ visibility_config.append("!")
 if matched_random:
     charList = gen_matched_list(player_one, player_two, dic, charList, dlc_toggle)
 else:
-    charList = char_lineup(character_num)
+    charList = char_lineup(character_num, dlc_toggle)
 
 for i in range(character_num):
     tier_color = tiers_color_dict[get_tier(player_two, charList[i], dic)]
@@ -123,7 +123,7 @@ for i in range(len(color_list), 21):
 #refresh characters
 def refresh_characters():
     #player1
-    charList = char_lineup(character_num)
+    charList = char_lineup(character_num, dlc_toggle)
     for i in range(len(charList)):
         tier_color = tiers_color_dict[get_tier(player_one, charList[i], dic)]
         imOut = "chars/" + charList[i] + ".png"
@@ -137,7 +137,7 @@ def refresh_characters():
     if matched_random:
         charList = gen_matched_list(player_one, player_two, dic, charList, dlc_toggle)
     else:
-        charList = char_lineup(character_num)
+        charList = char_lineup(character_num, dlc_toggle)
 
     for i in range(len(charList)):
         tier_color = tiers_color_dict[get_tier(player_two, charList[i], dic)]

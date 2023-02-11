@@ -11,11 +11,12 @@ dlc_characters = ['Piranha Plant', 'Joker', 'Hero', 'Banjo & Kazooie', 'Terry', 
 tiers_color_dict = {'S':"red", 'A':"orange", 'B':"green", 'C':"blue", 'D':"purple", 'F':"pink"}
 
 #returns list of characters for a player
-def char_lineup(num_characters):
+def char_lineup(num_characters, dlc_toggle):
     lineup = []
     random.seed()
     loc = list_of_characters.copy()
-    loc = [elem for elem in loc if elem not in dlc_characters]
+    if dlc_toggle:
+        loc = [elem for elem in loc if elem not in dlc_characters]
     for i in range(num_characters):
         chosen_character = random.randrange(0, len(loc))
         name = loc[chosen_character]
