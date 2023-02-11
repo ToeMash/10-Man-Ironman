@@ -11,6 +11,7 @@ sg.theme('DarkAmber')
 
 character_num = 0   #number of characters
 matched_random = True
+dlc_toggle = False
 
 dic = gen_global("Players")
 lst_names = list(dic.keys())
@@ -29,6 +30,7 @@ layout = [
     [sg.Column([[sg.Button("Remove Player: ", size=(15,1))]],
     element_justification = 'l', pad = 1),
     sg.Column([[sg.Combo(lst_names, k="l3")]], element_justification = 'r', pad = 1)],
+    [sg.Checkbox("toggle DLC", default=False, k="togDLC")],
     [sg.Button("Start")],
     [sg.Button("Close")]
 ]
@@ -57,6 +59,8 @@ while True:
             matched_random = False
         if character_num <= 0 or character_num > 10:    #player_num less than or equal to 0
             sys.exit("inputed values are invalid")
+        if values["togDLC"] == True:
+            dlc_toggle = True
         break
     elif event == "New Player":
         open_tierMaker(values[2])
@@ -100,7 +104,7 @@ name.append("!")
 visibility_config.append("!")
 
 if matched_random:
-    charList = gen_matched_list(player_one, player_two, dic, charList)
+    charList = gen_matched_list(player_one, player_two, dic, charList, dlc_toggle)
 else:
     charList = char_lineup(character_num)
 
@@ -131,7 +135,7 @@ def refresh_characters():
         seen["-IMG1-"+str(i)] = tier_color
     #player2
     if matched_random:
-        charList = gen_matched_list(player_one, player_two, dic, charList)
+        charList = gen_matched_list(player_one, player_two, dic, charList, dlc_toggle)
     else:
         charList = char_lineup(character_num)
 
